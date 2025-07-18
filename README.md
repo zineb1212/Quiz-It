@@ -32,3 +32,10 @@ Built with Node.js, Express, MySQL (backend) and HTML, CSS, JavaScript (frontend
 1. Clone the repo:
 ```bash
 git clone https://github.com/harshh-1573/CS-QUIZ-MASTER.git
+
+
+---
+## 🙏 Credits
+Created with ❤️ by Harsh Gorantiwar  
+Feel free to ⭐ this repo if you like it!
+
