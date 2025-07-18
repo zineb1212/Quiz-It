@@ -1,2 +1,29 @@
-# CS-QUIZ-MASTER
-CS Quiz Master is a web-based quiz app for Computer Science students. Built with Node.js, Express, MySQL, HTML, CSS, and JS. Features user login, admin panel, timed quizzes, score tracking, and responsive design. Helps test and improve CS knowledge interactively.
+# 🎓 CS Quiz Master
+
+A web-based quiz application designed for computer science students to practice and test their knowledge.  
+Built with Node.js, Express, MySQL (backend) and HTML, CSS, JavaScript (frontend).
+
+---
+
+## ✨ **Features**
+- Timed quizzes with auto-scoring
+- Login & authentication (JWT)
+- Clean responsive UI
+- Light/dark mode (planned)
+- Extendable for other departments
+
+---
+
+## 🛠 **Tech Stack**
+- **Frontend:** HTML, CSS, JavaScript
+- **Backend:** Node.js, Express.js
+- **Database:** MySQL
+- **Auth:** JSON Web Tokens (JWT)
+
+---
+
+## 🚀 **Setup & Run Locally**
+
+1. Clone the repo:
+```bash
+git clone https://github.com/harshh-1573/CS-QUIZ-MASTER.git
