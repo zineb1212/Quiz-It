@@ -36,6 +36,12 @@ Built with Node.js, Express, MySQL (backend) and HTML, CSS, JavaScript (frontend
 ```bash
 mysql -u root -p quiz_system < backend/database.sql
 
+## ⚙️ Setup .env
+1. Copy `.env.example` to `.env`:
+```bash
+cp backend/.env.example backend/.env
+
+
 
 
 ## 🚀 **Setup & Run Locally**
