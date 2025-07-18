@@ -1,0 +1,275 @@
+const express =require('express');
+const cors = require('cors');
+const bcrypt = require('bcrypt');
+const db = require('./db');
+require('dotenv').config();
+
+
+const app = express();
+const PORT = 5000;
+
+const helmet = require('helmet');
+const rateLimit = require('express-rate-limit');
+
+app.use(helmet()); // Security headers
+app.use(rateLimit({
+    windowMs: 15 * 60 * 1000, // 15 minutes
+    max: 100, // Limit each IP to 100 requests per windowMs
+}));
+
+
+// ✅ Middleware (IMPORTANT: express.json() must be first!)
+app.use(express.json()); 
+app.use(cors({
+    origin: "http://localhost:3000", // Adjust if frontend runs on another port
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    allowedHeaders: ["Content-Type", "Authorization"]
+}));
+
+
+
+
+// ✅ Debugging Middleware (Logs Raw Body)
+app.use((req, res, next) => {
+    console.log("📌 Raw Request Body:", req.body);
+    next();
+});
+
+// ✅ Error Handling Middleware
+app.use((err, req, res, next) => {
+    if (err instanceof SyntaxError && err.status === 400 && 'body' in err) {
+        return res.status(400).json({ error: 'Invalid JSON format' });
+    }
+    next();
+});
+const jwt = require('jsonwebtoken'); // Add this at the top
+const SECRET_KEY = process.env.SECRET_KEY;
+
+const authenticateToken = (req, res, next) => {
+    const token = req.header("Authorization");
+
+    if (!token) {
+        return res.status(401).json({ error: "Access denied. No token provided." });
+    }
+
+    const jwtToken = token.replace("Bearer ", "");
+
+    const sql = "SELECT * FROM token_blacklist WHERE token = ?";
+    db.query(sql, [jwtToken], (err, results) => {
+        if (err) {
+            return res.status(500).json({ error: "Internal Server Error" });
+        }
+        if (results.length > 0) {
+            return res.status(403).json({ error: "Invalid token. Please log in again." });
+        }
+
+        try {
+            const decoded = jwt.verify(jwtToken, SECRET_KEY);
+            console.log("📌 Decoded JWT Payload:", decoded); // Debugging log
+            req.user = decoded; // Attach user info
+            next();
+        } catch (err) {
+            res.status(403).json({ error: "Invalid token." });
+        }
+    });
+};
+
+
+
+
+// ✅ User Registration Route
+app.post('/users/register', async (req, res) => {
+    try {
+        const { name, email, password } = req.body;
+        
+        if (!name || !email || !password) {
+            return res.status(400).json({ error: 'All fields are required' });
+        }
+        
+        const salt = await bcrypt.genSalt(10);
+        const hashedPassword = await bcrypt.hash(password, salt);
+
+        
+        const sqlCheck = 'SELECT * FROM users WHERE email = ?';
+        db.query(sqlCheck, [email], (err, results) => {
+            if (err) return res.status(500).json({ error: 'Database error' });
+            
+            if (results.length > 0) {
+                return res.status(400).json({ error: 'Email already in use' });
+            }
+
+            // ✅ Insert new user after checking existence
+            const sqlInsert = 'INSERT INTO users (name, email, password_hash) VALUES (?, ?, ?)';
+            db.query(sqlInsert, [name, email, hashedPassword], (err, result) => {
+                if (err) return res.status(500).json({ error: 'Database error' });
+                res.json({ message: 'User registered successfully', user_id: result.insertId });
+            });
+        });
+    } catch (error) {
+        console.error('❌ Server Error:', error);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
+});
+
+
+// ✅ User Login Route
+app.post('/users/login', (req, res) => {
+    const { email, password } = req.body;
+
+    if (!email || !password) {
+        return res.status(400).json({ error: 'Email and password are required' });
+    }
+
+    const sql = 'SELECT * FROM users WHERE email = ?';
+    db.query(sql, [email], async (err, results) => {
+        if (err) {
+            return res.status(500).json({ error: err.message });
+        }
+
+        if (results.length === 0) {
+            return res.status(401).json({ error: 'Invalid email or password' });
+        }
+
+        const user = results[0];
+        const isPasswordValid = await bcrypt.compare(password, user.password_hash);
+
+        if (!isPasswordValid) {
+            return res.status(401).json({ error: 'Invalid email or password' });
+        }
+
+        // Generate a JWT token
+        const token = jwt.sign({ user_id: user.id, email: user.email }, SECRET_KEY, { expiresIn: '1h' });
+
+        res.json({ message: 'Login successful', token });
+    });
+});
+
+   //questions route
+app.get('/questions', authenticateToken, (req, res) => {
+    db.query('SELECT * FROM questions', (err, results) => {
+        if (err) {
+            return res.status(500).json({ error: err.message });
+        }
+        res.json(results);
+    });
+});
+
+   //responses route
+app.post('/responses', authenticateToken, (req, res) => {
+    const { question_id, selected_option } = req.body;
+    const user_id = req.user.user_id; // Get user ID from token
+
+    if (!question_id || !selected_option) {
+        return res.status(400).json({ error: 'Question ID and selected option are required' });
+    }
+
+    // Get the correct answer from the database
+    const sql = 'SELECT correct_option FROM questions WHERE id = ?';
+    db.query(sql, [question_id], (err, results) => {
+        if (err) {
+            return res.status(500).json({ error: err.message });
+        }
+
+        if (results.length === 0) {
+            return res.status(404).json({ error: 'Question not found' });
+        }
+
+        const correct_option = results[0].correct_option;
+        const is_correct = (selected_option === correct_option) ? 1 : 0; // Convert boolean to tinyint (0 or 1)
+
+        // Store the user's response
+        const insertSQL = 'INSERT INTO user_responses (user_id, question_id, selected_option, is_correct) VALUES (?, ?, ?, ?)';
+        db.query(insertSQL, [user_id, question_id, selected_option, is_correct], (err) => {
+            if (err) {
+                return res.status(500).json({ error: err.message });
+            }
+            res.json({ message: 'Response recorded', is_correct: !!is_correct });
+        });
+    });
+});
+
+   //submit-score route
+app.post('/submit-score', authenticateToken, (req, res) => {
+    const { subject_id, score, total_questions } = req.body;
+    const user_id = req.user.user_id; // Ensure correct property name
+
+    console.log("📌 Extracted user_id:", req.user); // Debugging log
+    console.log("📌 Extracted user object:", req.user);
+    console.log("📌 Extracted user_id:", user_id);
+
+
+    if (!user_id || !subject_id || score === undefined || total_questions === undefined) {
+        return res.status(400).json({ error: "Missing required fields" });
+    }
+
+    db.query(
+        'INSERT INTO user_scores (user_id, subject_id, score, total_questions) VALUES (?, ?, ?, ?)',
+        [user_id, subject_id, score, total_questions],
+        (err, result) => {
+            if (err) {
+                console.error("❌ Database Error:", err);
+                return res.status(500).json({ error: "Internal Server Error" });
+            }
+            res.json({ message: "Score submitted successfully", score_id: result.insertId });
+        }
+    );
+});
+
+    // scores route
+app.get('/scores', authenticateToken, (req, res) => {
+    const user_id = req.user.user_id; // Get user ID from token
+
+    console.log("📌 Fetching scores for user:", user_id); // Debugging log
+
+    db.query(
+        `SELECT * FROM user_scores WHERE user_id = ? ORDER BY timestamp DESC`,
+        [user_id],
+        (err, results) => {
+            if (err) {
+                console.error("❌ Database Error:", err);
+                return res.status(500).json({ error: "Internal Server Error" });
+            }
+            res.json({ scores: results });
+        }
+    );
+});
+
+
+
+
+// ✅ Test Route
+app.get('/', (req, res) => {
+    console.log("📌 GET / request received");
+    res.send('✅ Server is running');
+});
+// ✅ Logout Route (Blacklist JWT Token)
+app.post('/users/logout', authenticateToken, (req, res) => {
+    const token = req.header('Authorization').replace('Bearer ', '');
+
+    // Check if token already blacklisted
+    const checkSQL = 'SELECT * FROM token_blacklist WHERE token = ?';
+    db.query(checkSQL, [token], (err, results) => {
+        if (err) {
+            return res.status(500).json({ error: 'Database error' });
+        }
+
+        if (results.length > 0) {
+            return res.status(400).json({ error: 'Token already blacklisted' });
+        }
+
+        // Insert into blacklist
+        const sql = 'INSERT INTO token_blacklist (token) VALUES (?)';
+        db.query(sql, [token], (err) => {
+            if (err) {
+                return res.status(500).json({ error: 'Logout failed. Please try again.' });
+            }
+            res.json({ message: 'Logged out successfully.' });
+        });
+    });
+});
+
+
+// ✅ Start Server
+app.listen(PORT, () => {
+    console.log(`🚀 Server is running on port ${PORT}`);
+});

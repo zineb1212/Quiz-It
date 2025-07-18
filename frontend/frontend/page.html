@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QuizApp</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f5f5f5;
+        }
+        
+        .header {
+            background-color: #1a1a1a;
+            color: white;
+            padding: 15px 20px;
+            font-size: 24px;
+            font-weight: bold;
+            border-top: 10px solid #333;
+            position: relative;
+        }
+        
+        .traffic-lights {
+            position: absolute;
+            top: -9px;
+            left: 10px;
+        }
+        
+        .traffic-light {
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            margin-right: 5px;
+        }
+        
+        .red { background-color: #ff5f57; }
+        .yellow { background-color: #febc2e; }
+        .green { background-color: #28c840; }
+        
+        .container {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: white;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        .question-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        .question-number {
+            display: flex;
+            align-items: center;
+        }
+        
+        .info-icon {
+            width: 30px;
+            height: 30px;
+            background-color: #333;
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-right: 10px;
+            font-weight: bold;
+        }
+        
+        .timer {
+            display: flex;
+        }
+        
+        .timer-box {
+            width: 50px;
+            height: 40px;
+            background-color: #f5f5f5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 24px;
+            margin-left: 2px;
+        }
+        
+        .question-content {
+            padding: 20px;
+            background-color: #f9f9f9;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            font-size: 18px;
+        }
+        
+        .instructions {
+            margin-bottom: 20px;
+            color: #666;
+        }
+        
+        .options {
+            list-style-type: none;
+            padding: 0;
+        }
+        
+        .option {
+            padding: 15px;
+            border: 1px solid #ddd;
+            margin-bottom: 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+        
+        .option:hover {
+            background-color: #f0f0f0;
+        }
+        
+        .option-letter {
+            font-weight: bold;
+            margin-right: 10px;
+        }
+        
+        .next-button {
+            background-color: #2185d0;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            font-size: 16px;
+            border-radius: 5px;
+            cursor: pointer;
+            float: right;
+            display: flex;
+            align-items: center;
+        }
+        
+        .next-button:hover {
+            background-color: #1678c2;
+        }
+        
+        .arrow-icon {
+            margin-left: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="traffic-lights">
+            <span class="traffic-light red"></span>
+            <span class="traffic-light yellow"></span>
+            <span class="traffic-light green"></span>
+        </div>
+        QuizApp
+    </div>
+    
+    <div class="container">
+        <div class="question-header">
+            <div class="question-number">
+                <div class="info-icon">i</div>
+                <h2>Question No.5 of 10</h2>
+            </div>
+            <div class="timer">
+                <div class="timer-box">00</div>
+                <div class="timer-box">03</div>
+                <div class="timer-box">40</div>
+            </div>
+        </div>
+        
+        <div class="question-content">
+            <p>Q. What is the name of the process that sends one qubit of information using two bits of classical information?</p>
+        </div>
+        
+        <div class="instructions">
+            <p>Please choose one of the following answers:</p>
+        </div>
+        
+        <div class="options">
+            <div class="option" onclick="selectOption(this)">
+                <span class="option-letter">A.</span> Super Dense Coding
+            </div>
+            <div class="option" onclick="selectOption(this)">
+                <span class="option-letter">B.</span> Quantum Programming
+            </div>
+            <div class="option" onclick="selectOption(this)">
+                <span class="option-letter">C.</span> Quantum Teleportation
+            </div>
+            <div class="option" onclick="selectOption(this)">
+                <span class="option-letter">D.</span> Quantum Entanglement
+            </div>
+        </div>
+        
+        <button class="next-button">
+            Next
+            <span class="arrow-icon">&#10095;</span>
+        </button>
+    </div>
+
+    <script>
+        function selectOption(element) {
+            // Remove selected class from all options
+            document.querySelectorAll('.option').forEach(option => {
+                option.style.backgroundColor = '';
+                option.style.borderColor = '#ddd';
+            });
+            
+            // Add selected class to clicked option
+            element.style.backgroundColor = '#f0f8ff';
+            element.style.borderColor = '#2185d0';
+        }
+        
+        // Timer functionality
+        let seconds = 40;
+        let minutes = 3;
+        let hours = 0;
+        
+        function updateTimer() {
+            document.querySelectorAll('.timer-box')[2].textContent = seconds.toString().padStart(2, '0');
+            document.querySelectorAll('.timer-box')[1].textContent = minutes.toString().padStart(2, '0');
+            document.querySelectorAll('.timer-box')[0].textContent = hours.toString().padStart(2, '0');
+            
+            seconds--;
+            if (seconds < 0) {
+                seconds = 59;
+                minutes--;
+                if (minutes < 0) {
+                    minutes = 59;
+                    hours--;
+                    if (hours < 0) {
+                        clearInterval(timerInterval);
+                        alert('Time is up!');
+                    }
+                }
+            }
+        }
+        
+        const timerInterval = setInterval(updateTimer, 1000);
+    </script>
+</body>
+</html>

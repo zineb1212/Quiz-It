@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CS Wizard Quiz</title>
+        
+    <style>
+        body {
+            position: relative;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            background: linear-gradient(-45deg, #677c8e, #009c9c, #d7dee8, #0d0d3f, #3a506b, #5bc0be);
+            background-size: 600% 600%;
+            animation: gradientAnimation 10s ease infinite;
+            z-index: 1;
+            overflow: hidden;
+        }
+
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 100%;
+            width: 100%;
+            pointer-events: none;
+            background: radial-gradient(circle at center, rgba(255,255,255,0.05), transparent 70%);
+            animation: pulseGlow 6s ease-in-out infinite;
+            z-index: 0;
+        }
+
+        @keyframes gradientAnimation {
+            0% {
+                background-position: 0% 50%;
+            }
+            50% {
+                background-position: 100% 50%;
+            }
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+
+        @keyframes pulseGlow {
+            0%, 100% {
+                opacity: 0.05;
+            }
+            50% {
+                opacity: 0.15;
+            }
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        h1 {
+            color: #4169E1;
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+        
+        .subheading {
+            color: #666;
+            margin-bottom: 30px;
+        }
+        
+        .categories-container {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 30px;
+            max-width: 900px;
+            width: 100%;
+        }
+        
+        .category {
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            padding: 20px;
+            text-align: center;
+            transition: transform 0.3s ease;
+            cursor: pointer;
+            background-color: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(5px);
+        }
+        
+        .category:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .category.selected {
+            border: 2px solid #4169E1;
+            background-color: rgba(240, 245, 255, 0.9);
+        }
+
+        /* Modal Styles */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.5);
+}
+
+.modal-content {
+    background-color: #fefefe;
+    margin: 5% auto;
+    padding: 20px;
+    border-radius: 8px;
+    width: 80%;
+    max-width: 800px;
+    max-height: 80vh;
+    overflow-y: auto;
+}
+
+.close-btn {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.close-btn:hover {
+    color: black;
+}
+
+/* Table Styles */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+th, td {
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+th {
+    background-color: #f2f2f2;
+}
+
+tr:hover {
+    background-color: #f5f5f5;
+}
+    </style>
+</head>
+<body>
+    <header>
+        <h1>CS Quiz Master</h1>
+        <div class="subheading">Test your Computer Science knowledge!</div>
+    </header>
+    
+    <div class="categories-container">
+        <div class="category" data-subject-id="5">
+            <div class="category-title">Operating Systems</div>
+            <div class="category-desc">Process Management, Memory, File Systems</div>
+        </div>
+        
+        <div class="category" data-subject-id="2">
+            <div class="category-title">Database Systems</div>
+            <div class="category-desc">SQL, Normalization, Transactions</div>
+        </div>
+        
+        <div class="category" data-subject-id="6">
+            <div class="category-title">Programming</div>
+            <div class="category-desc">C, C++, Java, Python</div>
+        </div>
+        
+        <div class="category" data-subject-id="3">
+            <div class="category-title">Data Structures & Algorithms</div>
+            <div class="category-desc">Arrays, Trees, Graphs, Sorting</div>
+        </div>
+        
+        <div class="category" data-subject-id="1">
+            <div class="category-title">Computer Networks</div>
+            <div class="category-desc">TCP/IP, Routing, Security</div>
+        </div>
+        
+        <div class="category" data-subject-id="4">
+            <div class="category-title">Object-Oriented Programming</div>
+            <div class="category-desc">Classes, inheritance, polymorphism</div>
+        </div>
+    </div>
+    <div style="margin-top: 40px; text-align: center;">
+
+        <label for="quiz-time">Time Limit (in minutes):</label>
+        <select id="quiz-time" style="margin: 10px; padding: 6px;">
+          <option value="1">1 Minute</option>
+          <option value="3">3 Minutes</option>
+          <option value="5" selected>5 Minutes</option>
+          <option value="custom">Custom</option>
+        </select>
+        <input type="number" id="custom-time" placeholder="Enter custom time" style="display:none; margin: 10px; padding: 6px;" min="1" />
+
+        <br>
+
+        <label for="question-count">Number of Questions:</label>
+        <select id="question-count" style="margin: 10px; padding: 6px;">
+          <option value="3">3</option>
+          <option value="5" selected>5</option>
+          <option value="10">10</option>
+          <option value="custom">Custom</option>
+        </select>
+        <input type="number" id="custom-question-count" placeholder="Enter custom number" style="display:none; margin: 10px; padding: 6px;" min="1" />
+
+    </div>
+
+   
+
+    
+    
+    <button id="score-history-btn" class="btn">Score History</button>
+    <style>
+        /* Add this CSS to your stylesheet or in a <style> tag */
+
+.btn {
+  background: linear-gradient(135deg, #6a11cb, #2575fc); /* gradient */
+  color: #fff;
+  border: none;
+  border-radius: 12px;  /* rounded corners */
+  padding: 12px 24px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+  transition: all 0.3s ease;
+  outline: none;
+}
+
+.btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+}
+
+.btn:active {
+  transform: scale(0.98);
+}
+
+
+
+
+    </style>
+    
+    <div id="quiz-setup" style="margin-top: 30px; display: none; text-align: center;">
+        <button id="start-quiz-btn" style="
+            padding: 10px 20px;
+            font-size: 16px;
+            font-weight: bold;
+            color: white;
+            background-color: #4169E1;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        ">
+            Start Quiz 🚀
+        </button>
+        
+    </div>
+    
+
+    <script src="dashboard.js"></script>
+    
+</body>
+</html>

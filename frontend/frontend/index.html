@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Page</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="slideshow-container">
+        <div class="slide" style="background-image: url('images/img.jpg');"></div>
+        <div class="slide" style="background-image: url('images/img1.jpg');"></div>
+        <div class="slide" style="background-image: url('images/img2.jpg');"></div>
+        <div class="slide" style="background-image: url('images/img4.jpg');"></div>
+        <div class="slide" style="background-image: url('images/img5.jpg');"></div>
+    </div>
+
+    <!-- Header Section -->
+    <header class="header">
+        <h1>CS Quiz Master</h1>
+        <p id="greeting-message"></p>
+    </header>
+    
+    <div class="login-container">
+       <!-- User Login Form -->
+        <div class="login-box" id="user-login">
+        <h2>Login</h2>
+        <form id="login-form">
+            <input type="email" id="login-email" placeholder="Email" required>
+            <input type="password" id="login-password" placeholder="Password" required>
+            <button type="submit">Login</button>
+        </form>
+        <p>Don't have an account? <a href="#" id="show-register">Register</a></p>
+        </div>
+
+
+        <!-- Admin Login Form (Initially Hidden) -->
+        <div class="login-box hidden" id="admin-login">
+            <h2>Admin Login</h2>
+            <form id="admin-login-form">
+                <input type="text" placeholder="Admin Username" required>
+                <input type="password" placeholder="Admin Password" required>
+                <button type="submit">Login as Admin</button>
+            </form>
+            <button class="back-btn" id="back-to-user">Back to User Login</button>
+        </div>
+    </div> 
+    <!-- USER REGISTRATION BOX (Initially Hidden) -->
+    <div id="user-register" class="hidden register-container">
+        <form id="user-register-form">
+          <h2>Register</h2>
+        
+          <input type="text" id="register-name" placeholder="Full Name" required />
+          <input type="email" id="register-email" placeholder="Email" required />
+          <input type="password" id="register-password" placeholder="Password" required />
+        
+          <button type="submit">Register</button>
+          <p id="user-register-message"></p>
+        </form>
+    
+        <p class="switch-auth">Already have an account? 
+          <a href="#" id="back-to-login">Login</a>
+        </p>
+    </div>
+  
+    
+<!-- 
+    <footer>
+        <div class="footer">
+            <a href="#" id="admin-login-btn">Login as Admin</a> | <a href="#">Feedback</a>
+        </div>
+    </footer> -->
+    
+    <script src="script.js"></script>
+</body>
+</html>
+

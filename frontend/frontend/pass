@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QuizApp</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+        .question {
+            font-size: 20px;
+            margin-bottom: 20px;
+        }
+        .choices {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        .choice {
+            padding: 10px;
+            background: #ddd;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .choice:hover {
+            background: #ccc;
+        }
+        .next-btn {
+            margin-top: 20px;
+            padding: 10px 15px;
+            border: none;
+            background: #007bff;
+            color: white;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Quiz</h1>
+        <p class="question" id="question-text">Loading question...</p>
+        <div class="choices" id="choices"></div>
+        <button class="next-btn" id="next-btn" style="display: none;">Next</button>
+    </div>
+
+    <script>
+        function getToken() {
+            return localStorage.getItem('token');
+        }
+
+        function checkAuth() {
+            const token = getToken();
+            if (!token) {
+                window.location.href = '/login.html';
+            }
+        }
+
+        async function fetchQuestions() {
+            checkAuth();
+            const token = getToken();
+
+            try {
+                const response = await fetch('http://localhost:5000/questions?subject_id=1', {
+                    method: 'GET',
+                    headers: { 'Authorization': `Bearer ${token}` }
+                });
+                const data = await response.json();
+                displayQuestions(data);
+            } catch (error) {
+                console.error('Error fetching questions:', error);
+            }
+        }
+
+        function displayQuestions(questions) {
+            if (!questions.length) {
+                document.getElementById("question-text").textContent = "No questions available!";
+                return;
+            }
+            let currentQuestionIndex = 0;
+            
+            function loadQuestion() {
+                const questionData = questions[currentQuestionIndex];
+                document.getElementById("question-text").textContent = questionData.question_text;
+                const choicesContainer = document.getElementById("choices");
+                choicesContainer.innerHTML = "";
+
+                [questionData.option_a, questionData.option_b, questionData.option_c, questionData.option_d].forEach((option, index) => {
+                    const choiceElement = document.createElement("div");
+                    choiceElement.classList.add("choice");
+                    choiceElement.textContent = option;
+                    choiceElement.addEventListener("click", () => selectAnswer(choiceElement, questionData.correct_answer));
+                    choicesContainer.appendChild(choiceElement);
+                });
+
+                document.getElementById("next-btn").style.display = "none";
+            }
+            
+            function selectAnswer(selectedElement, correctAnswer) {
+                const choices = document.querySelectorAll(".choice");
+                choices.forEach(choice => choice.style.background = "#ddd");
+                
+                if (selectedElement.textContent === correctAnswer) {
+                    selectedElement.style.background = "green";
+                } else {
+                    selectedElement.style.background = "red";
+                }
+                document.getElementById("next-btn").style.display = "block";
+            }
+
+            document.getElementById("next-btn").addEventListener("click", () => {
+                if (++currentQuestionIndex < questions.length) {
+                    loadQuestion();
+                } else {
+                    alert("Quiz completed!");
+                }
+            });
+
+            loadQuestion();
+        }
+
+        window.onload = fetchQuestions;
+    </script>
+</body>
+</html>
