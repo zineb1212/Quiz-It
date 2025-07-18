@@ -27,6 +27,9 @@ Built with Node.js, Express, MySQL (backend) and HTML, CSS, JavaScript (frontend
 
 ---
 
+[![Demo Video](https://img.shields.io/badge/▶️-Watch%20Demo-blue)](demo/demo.mp4)
+
+
 ## 🚀 **Setup & Run Locally**
 
 1. Clone the repo:
