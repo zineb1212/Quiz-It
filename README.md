@@ -11,15 +11,6 @@ Une application web interactive permettant aux étudiants en informatique de tes
 - 🕓 **Historique des quiz** - Suivi des scores, dates et sujets passés
 - 💾 **Base de données MySQL** - Stockage sécurisé des utilisateurs et quiz
 
-## 🛠️ Technologies utilisées
-
-| Catégorie | Technologies |
-|-----------|--------------|
-| **Frontend** | HTML5, CSS3, JavaScript (Vanilla) |
-| **Backend** | Node.js, Express.js |
-| **Base de données** | MySQL |
-| **Authentification** | JSON Web Tokens (JWT) |
-
 ## ⚙️ Installation et exécution locale
 
 ### 1. Cloner le projet
@@ -88,9 +79,6 @@ npm start
 
 ### Quiz - Question incorrecte
 ![Quiz Incorrect](screenshots/quiz-incorrect.png)
-
-### Résultats
-![Results](screenshots/results.png)
 
 ### Historique des quiz
 ![History](screenshots/history.png)
