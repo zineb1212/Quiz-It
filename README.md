@@ -20,13 +20,6 @@ Une application web interactive permettant aux étudiants en informatique de tes
 | **Base de données** | MySQL |
 | **Authentification** | JSON Web Tokens (JWT) |
 
-## 📋 Prérequis
-
-- Node.js (v14 ou supérieur)
-- MySQL (v5.7 ou supérieur)
-- Un navigateur web moderne
-- Git
-
 ## ⚙️ Installation et exécution locale
 
 ### 1. Cloner le projet
@@ -85,21 +78,21 @@ npm start
 ## 📸 Captures d'écran
 
 ### Connexion / Inscription
-![Login Register](./screenshots/login-register.png)
+![Login Register](screenshots/login-register.png)
 
 ### Dashboard des sujets
-![Dashboard](./screenshots/dashboard.png)
+![Dashboard](screenshots/dashboard.png)
 
 ### Quiz - Question correcte
-![Quiz Correct](./screenshots/quiz-correct.png)
+![Quiz Correct](screenshots/quiz-correct.png)
 
 ### Quiz - Question incorrecte
-![Quiz Incorrect](./screenshots/quiz-incorrect.png)
+![Quiz Incorrect](screenshots/quiz-incorrect.png)
 
 ### Résultats
-![Results](./screenshots/results.png)
+![Results](screenshots/results.png)
 
 ### Historique des quiz
-![History](./screenshots/history.png)
+![History](screenshots/history.png)
 
 ---
