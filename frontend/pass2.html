@@ -157,7 +157,7 @@
         try {
           const token = localStorage.getItem("token");
           const response = await fetch(
-            `http://localhost:5000/questions?subject_id=${subjectId}`,
+            `http://127.0.0.1:5000/questions?subject_id=${subjectId}`,
             {
               method: "GET",
               headers: {
@@ -224,7 +224,7 @@
         ) {
           try {
             const token = localStorage.getItem("token");
-            const response = await fetch("http://localhost:5000/check-answer", {
+            const response = await fetch("http://127.0.0.1:5000/check-answer", {
               method: "POST",
               headers: {
                 "Content-Type": "application/json",

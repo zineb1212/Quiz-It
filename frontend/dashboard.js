@@ -1,49 +1,49 @@
-let selectedSubjectId = null;
+let selectedSubjectId = null
 
-document.querySelectorAll('.category').forEach(category => {
-  category.addEventListener('click', function () {
+document.querySelectorAll(".category").forEach((category) => {
+  category.addEventListener("click", function () {
     // Remove highlight from all
-    document.querySelectorAll('.category').forEach(c => c.classList.remove('selected'));
-    
+    document.querySelectorAll(".category").forEach((c) => c.classList.remove("selected"))
+
     // Highlight selected
-    this.classList.add('selected');
-    
-    selectedSubjectId = this.getAttribute('data-subject-id');
+    this.classList.add("selected")
+
+    selectedSubjectId = this.getAttribute("data-subject-id")
 
     // Show the quiz setup section
-    document.getElementById('quiz-setup').style.display = 'block';
-  });
-});
+    document.getElementById("quiz-setup").style.display = "block"
+  })
+})
 
 // Add Score History button to your HTML (you'll need to add this button in your dashboard.html)
-document.getElementById('score-history-btn').addEventListener('click', function() {
-  fetchUserScoreHistory();
-});
+document.getElementById("score-history-btn").addEventListener("click", () => {
+  fetchUserScoreHistory()
+})
 
 // Function to fetch and display score history
 function fetchUserScoreHistory() {
-  const token = localStorage.getItem('token'); // Assuming you store JWT token here
-  
-  fetch("http://localhost:5000/scores", {
-      method: 'GET',
-      headers: {
-          'Authorization': `Bearer ${token}`,
-          'Content-Type': 'application/json'
-      }
+  const token = localStorage.getItem("token") // Assuming you store JWT token here
+
+  fetch("http://127.0.0.1:5000/scores", {
+    method: "GET",
+    headers: {
+      Authorization: `Bearer ${token}`,
+      "Content-Type": "application/json",
+    },
   })
-  .then(response => {
+    .then((response) => {
       if (!response.ok) {
-          throw new Error('Network response was not ok');
+        throw new Error("Network response was not ok")
       }
-      return response.json();
-  })
-  .then(scores => {
-      displayScoreHistory(scores);
-  })
-  .catch(error => {
-      console.error('Error fetching score history:', error);
-      alert('Failed to load score history');
-  });
+      return response.json()
+    })
+    .then((scores) => {
+      displayScoreHistory(scores)
+    })
+    .catch((error) => {
+      console.error("Error fetching score history:", error)
+      alert("Failed to load score history")
+    })
 }
 
 // Function to display score history in a modal
@@ -54,8 +54,9 @@ function displayScoreHistory(scores) {
           <div class="modal-content">
               <span class="close-btn">&times;</span>
               <h2>Your Quiz History</h2>
-              ${scores.length > 0 ? 
-                  `<table>
+              ${
+                scores.length > 0
+                  ? `<table>
                       <thead>
                           <tr>
                               <th>Subject</th>
@@ -65,72 +66,87 @@ function displayScoreHistory(scores) {
                           </tr>
                       </thead>
                       <tbody>
-                          ${scores.map(score => `
+                          ${scores
+                            .map(
+                              (score) => `
                               <tr>
                                   <td>${score.subject_name}</td>
                                   <td>${score.score}/${score.total_questions}</td>
                                   <td>${score.percentage.toFixed(1)}%</td>
                                   <td>${new Date(score.timestamp).toLocaleString()}</td>
                               </tr>
-                          `).join('')}
+                          `,
+                            )
+                            .join("")}
                       </tbody>
-                  </table>` 
-                  : '<p>No quiz history found.</p>'}
+                  </table>`
+                  : "<p>No quiz history found.</p>"
+              }
           </div>
       </div>
-  `;
-  
+  `
+
   // Add modal to the page
-  document.body.insertAdjacentHTML('beforeend', modalHTML);
-  
+  document.body.insertAdjacentHTML("beforeend", modalHTML)
+
   // Add close button functionality
-  document.querySelector('#score-history-modal .close-btn').addEventListener('click', function() {
-      document.getElementById('score-history-modal').remove();
-  });
-  
+  document.querySelector("#score-history-modal .close-btn").addEventListener("click", () => {
+    document.getElementById("score-history-modal").remove()
+  })
+
   // Close modal when clicking outside
-  window.addEventListener('click', function(event) {
-      const modal = document.getElementById('score-history-modal');
-      if (event.target === modal) {
-          modal.remove();
-      }
-  });
+  window.addEventListener("click", (event) => {
+    const modal = document.getElementById("score-history-modal")
+    if (event.target === modal) {
+      modal.remove()
+    }
+  })
 }
 
-document.getElementById('quiz-time').addEventListener('change', function () {
-  const customTimeInput = document.getElementById('custom-time');
-  customTimeInput.style.display = this.value === 'custom' ? 'inline-block' : 'none';
-});
+document.getElementById("logout-btn").addEventListener("click", () => {
+  // Clear the token from localStorage
+  localStorage.removeItem("token")
 
-document.getElementById('question-count').addEventListener('change', function () {
-  const customCountInput = document.getElementById('custom-question-count');
-  customCountInput.style.display = this.value === 'custom' ? 'inline-block' : 'none';
-});
+  // Clear any other user data if stored
+  localStorage.removeItem("user")
+  sessionStorage.clear()
 
-document.getElementById('start-quiz-btn').addEventListener('click', function () {
-  let time = document.getElementById('quiz-time').value;
-  let questionCount = document.getElementById('question-count').value;
+  // Redirect to login page
+  window.location.href = "index.html"
+})
 
-  if (time === 'custom') {
-    time = document.getElementById('custom-time').value;
+document.getElementById("quiz-time").addEventListener("change", function () {
+  const customTimeInput = document.getElementById("custom-time")
+  customTimeInput.style.display = this.value === "custom" ? "inline-block" : "none"
+})
+
+document.getElementById("question-count").addEventListener("change", function () {
+  const customCountInput = document.getElementById("custom-question-count")
+  customCountInput.style.display = this.value === "custom" ? "inline-block" : "none"
+})
+
+document.getElementById("start-quiz-btn").addEventListener("click", () => {
+  let time = document.getElementById("quiz-time").value
+  let questionCount = document.getElementById("question-count").value
+
+  if (time === "custom") {
+    time = document.getElementById("custom-time").value
   }
 
-  if (questionCount === 'custom') {
-    questionCount = document.getElementById('custom-question-count').value;
+  if (questionCount === "custom") {
+    questionCount = document.getElementById("custom-question-count").value
   }
 
   if (!time || !questionCount || !selectedSubjectId || time <= 0 || questionCount <= 0) {
-    alert("Please fill all quiz options with valid values.");
-    return;
+    alert("Please fill all quiz options with valid values.")
+    return
   }
 
   // Store in sessionStorage
-  sessionStorage.setItem('subjectId', selectedSubjectId);
-  sessionStorage.setItem('quizTime', time);
-  sessionStorage.setItem('questionLimit', questionCount);
+  sessionStorage.setItem("subjectId", selectedSubjectId)
+  sessionStorage.setItem("quizTime", time)
+  sessionStorage.setItem("questionLimit", questionCount)
 
   // Redirect to quiz.html
-  window.location.href = 'quiz.html';
-});
-
-
+  window.location.href = "quiz.html"
+})

@@ -123,18 +123,10 @@ CREATE TABLE `token_blacklist` (
 --
 
 LOCK TABLES `token_blacklist` WRITE;
-/*!40000 ALTER TABLE `token_blacklist` DISABLE KEYS */;
 INSERT INTO `token_blacklist` VALUES (1,'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoxLCJlbWFpbCI6ImpvaG5AZXhhbXBsZS5jb20iLCJpYXQiOjE3NDIyMTAzMTUsImV4cCI6MTc0MjIxMzkxNX0.Pzr3c8UN9As0z6yIJqVJETQkVU6IanYapM3HCUmoV18'),(2,'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoyLCJlbWFpbCI6ImhhcnNoMTIzQGdtYWlsLmNvbSIsImlhdCI6MTc0MjIxNDcwNywiZXhwIjoxNzQyMjE4MzA3fQ.-eQRoiJB6SDHV_XObFLo4bpcDKZqt_ru60jETz1yc2g');
-/*!40000 ALTER TABLE `token_blacklist` ENABLE KEYS */;
 UNLOCK TABLES;
 
---
--- Table structure for table `user_progress`
---
-
 DROP TABLE IF EXISTS `user_progress`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `user_progress` (
   `user_id` int NOT NULL,
   `email` varchar(50) DEFAULT NULL,
@@ -147,25 +139,15 @@ CREATE TABLE `user_progress` (
   CONSTRAINT `user_progress_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`),
   CONSTRAINT `user_progress_ibfk_2` FOREIGN KEY (`subject_id`) REFERENCES `subjects` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
 
---
--- Dumping data for table `user_progress`
---
 
 LOCK TABLES `user_progress` WRITE;
-/*!40000 ALTER TABLE `user_progress` DISABLE KEYS */;
 INSERT INTO `user_progress` VALUES (16,'surajjude123@gmail.com',2,5,'7b98d722-c608-461e-9d07-5a94432da43c'),(16,'surajjude123@gmail.com',6,5,'58cabf2a-957e-400a-b504-799688a53add'),(17,'hmg@gmail.com',1,25,'d2ecd450-557b-482c-82e3-e3f20203a47c'),(17,'hmg@gmail.com',2,20,'294815c9-8981-409d-b8cd-eda32172a075'),(17,'hmg@gmail.com',3,5,'fc2ef1c8-9e10-4729-a4ce-49966b500125'),(17,'hmg@gmail.com',4,5,'2f64fc6a-fbd9-425e-998e-a6e9bdbad4bc'),(17,'hmg@gmail.com',5,35,'4121105d-8c2e-4565-b71d-5deaddca4354'),(17,'hmg@gmail.com',6,5,'21aaa308-a689-4dc4-bdfa-affb55c4d05c'),(18,'Harsh123@yahoo.com',1,5,'da32862a-411e-4387-adfb-247dce65b968'),(19,'hg@gmail.com',5,5,'4d04d1fa-2520-4311-be65-674e9a647c6d'),(20,'hmg1@gmail.com',2,5,'fed556c1-e278-45d3-abe7-980e15314fc4'),(20,'hmg1@gmail.com',5,5,'d91c615d-7f2c-4040-ba96-da9c450a5382'),(22,'aditya@gmail.com',5,5,'26475964-05f5-40e5-ae51-503d70dff50a');
-/*!40000 ALTER TABLE `user_progress` ENABLE KEYS */;
 UNLOCK TABLES;
 
---
--- Table structure for table `user_responses`
---
 
 DROP TABLE IF EXISTS `user_responses`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
+
 CREATE TABLE `user_responses` (
   `id` int NOT NULL AUTO_INCREMENT,
   `user_id` int DEFAULT NULL,
@@ -179,25 +161,16 @@ CREATE TABLE `user_responses` (
   CONSTRAINT `user_responses_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE,
   CONSTRAINT `user_responses_ibfk_2` FOREIGN KEY (`question_id`) REFERENCES `questions` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
 
---
--- Dumping data for table `user_responses`
---
 
 LOCK TABLES `user_responses` WRITE;
-/*!40000 ALTER TABLE `user_responses` DISABLE KEYS */;
 INSERT INTO `user_responses` VALUES (2,4,1003,'A',0,NULL),(3,4,1004,'C',1,NULL),(4,4,1003,'A',0,NULL),(5,4,1004,'B',0,NULL),(6,4,1005,'B',0,NULL),(7,9,1003,'A',0,NULL),(8,9,1004,'A',0,NULL),(9,9,1005,'B',0,NULL),(10,9,1006,'C',0,NULL),(11,9,1007,'B',0,NULL);
-/*!40000 ALTER TABLE `user_responses` ENABLE KEYS */;
 UNLOCK TABLES;
 
---
--- Table structure for table `user_scores`
---
+
 
 DROP TABLE IF EXISTS `user_scores`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
+
 CREATE TABLE `user_scores` (
   `id` int NOT NULL AUTO_INCREMENT,
   `email` varchar(50) DEFAULT NULL,
@@ -214,25 +187,16 @@ CREATE TABLE `user_scores` (
   CONSTRAINT `user_scores_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`),
   CONSTRAINT `user_scores_ibfk_2` FOREIGN KEY (`subject_id`) REFERENCES `subjects` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=108 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
 
---
--- Dumping data for table `user_scores`
---
 
 LOCK TABLES `user_scores` WRITE;
-/*!40000 ALTER TABLE `user_scores` DISABLE KEYS */;
 INSERT INTO `user_scores` VALUES (29,NULL,9,5,0,5,'42f49bdc-a393-45bf-b9e3-9d5e8642a174','2025-04-20 08:35:31'),(30,NULL,9,3,0,5,'d389a444-2dc3-408f-a9f7-db4a4e4cf531','2025-04-20 08:35:42'),(31,NULL,9,3,0,5,'77aa0963-f7e3-4aef-b65a-7730afd1bbac','2025-04-20 08:35:55'),(32,NULL,9,1,0,5,'01cae9ba-b6a8-4a64-8598-0431ce8ea42f','2025-04-20 08:36:13'),(33,NULL,9,5,0,5,'719082dd-80e3-49ff-a0d8-c6c7b0f8e0af','2025-04-20 08:48:24'),(34,NULL,9,5,0,5,'71a24896-a5c9-455d-9cc0-6a624a82f497','2025-04-20 09:00:33'),(35,NULL,9,5,0,5,'e036496c-698d-44d4-b361-add066d6320b','2025-04-20 09:15:38'),(36,NULL,9,5,0,5,'307e261c-a94f-49ae-9bd3-c2c9067abab7','2025-04-20 09:19:43'),(37,NULL,9,5,0,5,'436bdb16-0430-4f79-8c93-0df4f6fe7ab6','2025-04-20 09:24:03'),(38,NULL,9,5,1,5,'7aaa9bfd-3b47-47a0-ba63-6133bfe13847','2025-04-20 09:26:02'),(39,NULL,9,3,1,3,'791b1903-d804-4a40-99f4-75b904b72dbd','2025-04-20 09:35:26'),(40,NULL,9,3,0,5,'d4ebdaf1-43e8-4f02-9c9a-3440b85f17bc','2025-04-20 09:35:53'),(41,NULL,9,6,4,5,'1d539a51-2580-4987-8044-1d298276d59d','2025-04-20 09:40:12'),(42,NULL,9,5,1,5,'91690551-7ce8-4c6c-b778-d9fb7d83657a','2025-04-22 10:51:57'),(43,NULL,9,5,2,5,'c41e489d-3dc7-4c3e-b5c9-1b970251b872','2025-04-22 13:38:10'),(44,NULL,11,2,1,5,'c3a96757-f026-4e8c-9d99-aa4d7428943a','2025-04-22 13:40:34'),(45,NULL,11,5,2,5,'848a736a-b63b-4f9f-afc0-696a87b87e59','2025-04-22 13:49:05'),(46,NULL,11,4,2,5,'9fe3bc53-7fb2-49a4-9d07-808c50b0cae9','2025-04-22 13:54:58'),(47,NULL,11,2,6,10,'42f4efff-c303-4dbf-9c1d-45c0cf620956','2025-04-23 05:37:23'),(48,NULL,11,4,0,3,'fbf34820-6bab-45dc-b59c-d8df2fdfe407','2025-04-23 05:38:35'),(49,NULL,11,5,1,5,'8383f9d1-0684-4652-ac2d-88f0ba566ed4','2025-04-23 05:58:46'),(50,NULL,11,2,3,5,'f0beba87-a427-4d68-aa8a-e4584afa0d0b','2025-04-23 06:17:41'),(51,NULL,11,5,1,5,'e3045c2f-0bcf-49c1-a2e7-6b46f83a497a','2025-04-23 06:26:14'),(52,NULL,11,5,2,5,'797369b9-f0ad-49d9-9423-a9733526d9e3','2025-04-23 07:06:52'),(53,NULL,11,5,0,3,'d5bc9113-04ad-440d-adae-313dd4ac3bb7','2025-04-23 07:10:19'),(54,NULL,11,5,0,5,'0ee5ff9b-b1aa-482a-b887-1633887e7593','2025-04-23 07:39:55'),(55,NULL,11,5,0,3,'386c04c7-72b7-40d7-b785-92dd0f6eebfb','2025-04-23 08:59:04'),(56,NULL,11,2,2,5,'8238dc43-0e5c-4a74-b009-a556355e64c6','2025-04-23 09:03:00'),(57,NULL,11,5,1,5,'3b88c4ef-a9ea-47a1-9e85-574782badc8b','2025-04-23 10:19:36'),(58,NULL,11,2,1,5,'18339eba-5768-47c6-b525-0fdd337911a3','2025-04-23 10:23:27'),(59,NULL,11,3,1,5,'9b8268e8-d6d5-446b-babe-c6b07b05618c','2025-04-23 13:38:25'),(60,NULL,11,3,3,5,'4c0ca0b9-5b6a-4f98-815e-e08a433eabd1','2025-04-23 13:39:31'),(61,NULL,11,4,4,5,'cc776a01-1fa7-4e0f-ab6e-a7606cba7aef','2025-04-23 14:37:03'),(62,NULL,11,2,1,5,'108cc206-9c4e-4a67-b82a-e642ff91efc6','2025-04-23 17:19:12'),(63,NULL,11,6,3,5,'b9a1b6c7-2cd3-488c-ab47-2364e72a7daf','2025-04-23 17:20:48'),(64,NULL,11,3,7,15,'e4f4c2d7-8f8a-461b-9f5f-11634f80693d','2025-04-24 01:05:33'),(65,NULL,11,4,2,5,'3aa7a7de-d3ba-4e4a-9f12-b97e35132ca3','2025-04-24 01:47:14'),(66,NULL,12,5,3,10,'27ce1e2f-c1d2-43fe-95c2-1577217b6568','2025-04-24 02:03:23'),(67,NULL,12,3,4,5,'4f633db6-1e06-4dd8-8718-75a6f2807caa','2025-04-24 02:06:06'),(68,NULL,11,5,2,5,'4ab7c6de-f351-47d7-89b9-6c1ee1afe860','2025-04-24 05:20:15'),(69,NULL,14,5,2,5,'a70a2eee-3b62-4b4c-9aa8-5b68207447b0','2025-04-24 06:07:58'),(70,NULL,14,4,4,5,'38623b2f-4b46-44cf-be6a-12359b7d7bd2','2025-04-24 06:18:08'),(71,NULL,14,4,0,3,'302c0085-48fd-42f2-8c7a-bb304e548046','2025-04-24 06:54:13'),(72,NULL,11,2,5,5,'b574c965-8519-437b-8983-a97e41a2c3a5','2025-04-24 15:03:44'),(73,NULL,11,6,3,5,'7842716f-306f-47d0-8800-98569192ffba','2025-04-24 15:10:51'),(74,NULL,14,6,3,5,'ac1154ac-7541-4791-8315-b79b1ef51fbe','2025-04-25 10:43:30'),(75,NULL,14,4,4,5,'103bc9cf-e496-4952-880a-a4d7001ccbb7','2025-04-25 10:45:56'),(76,NULL,14,6,2,3,'9c63318a-9043-4f7d-8087-0f24f9ef2908','2025-04-25 10:46:57'),(77,NULL,14,3,4,5,'52360037-29d0-469a-9db7-3d10bf4542d5','2025-04-28 11:21:10'),(78,NULL,14,1,2,5,'257cb0d2-ef37-4471-a9a5-482c22a4349d','2025-04-28 11:23:08'),(79,NULL,11,2,2,5,'08aa944c-09fd-45f1-9239-37fe7a94233d','2025-05-04 14:28:26'),(80,NULL,11,5,2,5,'7f6cab70-aaa0-444e-814f-9a0c3c1b8e63','2025-05-04 14:29:21'),(81,NULL,15,5,2,5,'15faac64-39a1-4b0c-aa13-4ca926ff7ab0','2025-06-03 03:21:45'),(82,NULL,10,5,3,5,'b1fb9289-9b1b-4d08-b329-ae64d8c26bd6','2025-06-04 06:44:13'),(83,NULL,10,5,3,5,'38e90b58-c640-4b65-bb7d-e5510e235c3b','2025-06-04 06:45:08'),(84,NULL,16,6,3,5,'58cabf2a-957e-400a-b504-799688a53add','2025-06-04 10:20:34'),(85,NULL,16,2,2,5,'7b98d722-c608-461e-9d07-5a94432da43c','2025-06-04 10:33:14'),(86,NULL,17,2,3,5,'f973cb48-d313-499a-b34a-d14df515ec98','2025-06-05 07:28:37'),(87,NULL,18,1,3,5,'da32862a-411e-4387-adfb-247dce65b968','2025-06-06 05:37:59'),(88,NULL,17,5,3,5,'151e925d-ffca-47d8-96b7-00526d5db411','2025-06-06 05:56:48'),(89,NULL,17,5,3,5,'534ae0d1-d365-4a7c-9ae9-fcb7b0770868','2025-06-07 10:21:15'),(90,NULL,17,2,5,5,'d6de8543-267e-481e-81db-4625248c2559','2025-06-07 10:21:58'),(91,NULL,17,3,2,5,'fc2ef1c8-9e10-4729-a4ce-49966b500125','2025-06-07 10:23:18'),(92,NULL,17,4,3,5,'2f64fc6a-fbd9-425e-998e-a6e9bdbad4bc','2025-06-11 14:26:03'),(93,NULL,17,2,4,5,'10026311-5ef2-4c04-bcee-2147516636f8','2025-06-11 15:59:22'),(94,NULL,19,5,3,5,'4d04d1fa-2520-4311-be65-674e9a647c6d','2025-06-11 16:16:01'),(95,NULL,20,5,3,5,'d91c615d-7f2c-4040-ba96-da9c450a5382','2025-06-11 16:19:38'),(96,NULL,17,5,1,5,'65f4ceeb-35bd-45d8-8a8a-7bf01d4ec531','2025-06-11 16:44:13'),(97,NULL,20,2,3,5,'fed556c1-e278-45d3-abe7-980e15314fc4','2025-06-12 04:37:38'),(98,NULL,22,5,1,5,'26475964-05f5-40e5-ae51-503d70dff50a','2025-06-12 06:39:27'),(99,NULL,17,5,2,5,'ea5204be-97f1-482d-8b31-946997fcdfe2','2025-06-12 07:18:03'),(100,NULL,17,5,3,5,'b5e69807-0d44-4fd7-a295-2e4550ef90af','2025-06-12 08:28:59'),(101,NULL,17,6,3,5,'21aaa308-a689-4dc4-bdfa-affb55c4d05c','2025-06-12 08:40:36'),(102,NULL,17,1,5,10,'997dc7a2-eee0-461b-a852-227fa948e872','2025-06-12 09:17:06'),(103,NULL,17,1,2,10,'29dc3dd7-84d6-430b-b809-7ec50976d99d','2025-06-12 09:21:05'),(104,NULL,17,2,3,5,'294815c9-8981-409d-b8cd-eda32172a075','2025-06-17 13:44:39'),(105,NULL,17,1,3,5,'d2ecd450-557b-482c-82e3-e3f20203a47c','2025-06-29 11:42:26'),(106,NULL,17,5,1,5,'d2810f3e-dd94-49b8-97db-6a3dd0b9f8a3','2025-07-11 16:18:23'),(107,NULL,17,5,2,5,'4121105d-8c2e-4565-b71d-5deaddca4354','2025-07-14 07:48:49');
-/*!40000 ALTER TABLE `user_scores` ENABLE KEYS */;
 UNLOCK TABLES;
 
---
--- Table structure for table `users`
---
+
 
 DROP TABLE IF EXISTS `users`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
+
 CREATE TABLE `users` (
   `id` int NOT NULL AUTO_INCREMENT,
   `name` varchar(255) NOT NULL,
@@ -241,25 +205,9 @@ CREATE TABLE `users` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `email` (`email`)
 ) ENGINE=InnoDB AUTO_INCREMENT=24 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
 
---
--- Dumping data for table `users`
---
 
 LOCK TABLES `users` WRITE;
-/*!40000 ALTER TABLE `users` DISABLE KEYS */;
 INSERT INTO `users` VALUES (16,'suraj jude','surajjude123@gmail.com','$2b$10$wyC8pVW/YOdeeiT/clqppe6jFK/iT1G5C.zs.0vpQr0O3OaDnZrM6'),(17,'Harsh Gorantiwar','hmg@gmail.com','$2b$10$SdIL3sxQAKFh0AoJmiShDuNWX538QbW8NaV7pm2CYNA3gnqri7/Be'),(18,'Harsh Gorantiwar','Harsh123@yahoo.com','$2b$10$1mBMH8N50MzVerKYGR9bM.VRPw6SvLDIWCdstKHAFtD077BewR.cC'),(19,'Harsh Gorantiwar','hg@gmail.com','$2b$10$thxGYmsSGd9sqGlS8SKB9ODbZbpGBNhrz0pKDv1jrvHopkdiCb212'),(20,'Harsh Gorantiwar','hmg1@gmail.com','$2b$10$INe5NzIAFVCgwxftsnqkBu3Q.v6jsjtQCh1oFH3c.9nA5/iEf18Sm'),(21,'sujal patil','sujal@gmail.com','$2b$10$qO7d1EGqDHbFeBuyOCRtkOlsgu1m9a4LMZgckDJRnep5TPq6zRDra'),(22,'Aditya Chudhari','aditya@gmail.com','$2b$10$S8O3Ux1ixDTWtKp40QBJrORJAC51E838/lHE.8laOYbU0WmUfmuNi'),(23,'harsh','h@mail.com','$2b$10$okDQxRwClMesNkeu2VOXNuI6exFV8hILL1NDxc94GMeTILEVSWCYK');
-/*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
-/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
-/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
-/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
-/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
-/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
-/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
-/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
-/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
-
--- Dump completed on 2025-07-18 14:57:31

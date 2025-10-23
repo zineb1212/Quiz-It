@@ -68,7 +68,7 @@ document.addEventListener("DOMContentLoaded", async function () {
     try {
       const token = localStorage.getItem("token");
       const response = await fetch(
-        `http://localhost:5000/questions?subject_id=${subjectId}`,
+        `http://127.0.0.1:5000/questions?subject_id=${subjectId}`,
         {
           method: "GET",
           headers: {
@@ -144,7 +144,7 @@ document.addEventListener("DOMContentLoaded", async function () {
            try {
          const token = localStorage.getItem("token");
          const subject_id = sessionStorage.getItem("subjectId"); // Get subject ID here 
-         const response = await fetch("http://localhost:5000/check-answer", {
+         const response = await fetch("http://127.0.0.1:5000/check-answer", {
           method: "POST",
           headers: {
            "Content-Type": "application/json",
@@ -280,7 +280,7 @@ document.addEventListener("DOMContentLoaded", async function () {
 
   async function submitScore(correctAnswers, totalQuestions) {
     try {
-        const response = await fetch("http://localhost:5000/submit-score", {
+        const response = await fetch("http://127.0.0.1:5000/submit-score", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",

@@ -3,7 +3,7 @@ const mysql = require('mysql');
 const db = mysql.createConnection({
     host: 'localhost',
     user: 'root',  // Change this if you have a different MySQL user
-    password: 'Harsh123@', // Use the password you set for MySQL
+    password: 'Zineb1212.', // Use the password you set for MySQL
     database: 'quiz_system'
 });
 

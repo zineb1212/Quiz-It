@@ -21,7 +21,7 @@ app.use(rateLimit({
 // ✅ Middleware (IMPORTANT: express.json() must be first!)
 app.use(express.json()); 
 app.use(cors({
-    origin: ["http://127.0.0.1:5500", "http://localhost:5500", "http://localhost:5000"],
+    origin: ["http://127.0.0.1:5501", "http://localhost:5500", "http://localhost:5000"],
     methods: ["GET", "POST", "PUT", "DELETE"],
     allowedHeaders: ["Content-Type", "Authorization"],
     credentials: true
