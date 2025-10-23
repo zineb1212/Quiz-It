@@ -32,54 +32,54 @@ Une application web interactive permettant aux étudiants en informatique de tes
 ### 1. Cloner le projet
 
 ```bash
-git clone https://github.com/votre-username/quiz-it.git
+git clone https://github.com/zineb1212/Quiz-It.git
 cd quiz-it
 ```
 
 ### 2. Créer la base de données
 
-\`\`\`bash
+```bash
 mysql -u root -p
-\`\`\`
+```
 
 Puis exécutez :
 
-\`\`\`sql
+```sql
 CREATE DATABASE quiz_system;
 USE quiz_system;
-\`\`\`
+```
 
 Importez le fichier de base de données :
 
-\`\`\`bash
+```bash
 mysql -u root -p quiz_system < backend/database.sql
-\`\`\`
+```
 
 ### 3. Configurer les variables d'environnement
 
 Dans le dossier `backend`, créez un fichier `.env` :
 
-\`\`\`env
+```env
 PORT=5000
 DB_HOST=localhost
 DB_USER=root
 DB_PASS=votre_mot_de_passe
 DB_NAME=quiz_system
 JWT_SECRET=votre_secret_jwt_tres_securise
-\`\`\`
+```
 
 ### 4. Installer les dépendances backend
 
-\`\`\`bash
+```bash
 cd backend
 npm install
-\`\`\`
+```
 
 ### 5. Lancer le serveur
 
-\`\`\`bash
+```bash
 npm start
-\`\`\`
+```
 
 
 ## 📸 Captures d'écran
